@@ -54,12 +54,12 @@ class RemoveUser(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('dashboard:user_home')
 
 
-class PostMessage(TemplateView):
+class PostMessage(LoginRequiredMixin, ListView):
+    login_required = True
     template_name = 'users_manager/show.html'
+    model = User
 
     def get_context_data(self, **kwargs):
         context = super(PostMessage, self).get_context_data(**kwargs)
-        context['messages'] = User.objects.get(id=self.request.user.id).messages.all()
-        context['message_form'] = message_form
-        context['comment_form'] = comment_form
+        context['messages'] = User.objects.get(id=self.kwargs['pk']).messages.all()
         return context
