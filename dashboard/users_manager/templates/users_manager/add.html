@@ -1,0 +1,8 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+    <form action="{% url 'users:new' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Add">
+    </form>
+{% endblock  %}

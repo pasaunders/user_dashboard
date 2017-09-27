@@ -32,12 +32,12 @@ class FrontendTestCases(TestCase):
 
     def test_signin_route_status(self):
         """Test that the sign in route returns ok."""
-        response = self.client.get(reverse_lazy('login:signin'))
+        response = self.client.get(reverse_lazy('login:signin_page'))
         self.assertTrue(response.status_code == 200)
 
     def test_register_route_status(self):
         """Test that the register route returns ok."""
-        response = self.client.get(reverse_lazy('login:register'))
+        response = self.client.get(reverse_lazy('login:register_page'))
         self.assertTrue(response.status_code == 200)
 
     def test_home_route_template(self):
@@ -47,25 +47,25 @@ class FrontendTestCases(TestCase):
 
     def test_signin_route_template(self):
         """Test that the sign in template is used for rendering."""
-        response = self.client.get(reverse_lazy('login:signin'))
+        response = self.client.get(reverse_lazy('login:signin_page'))
         self.assertTemplateUsed(response, 'login_manager/signin.html')
 
     def test_register_route_template(self):
         """Test that the register template is used for rendering."""
-        response = self.client.get(reverse_lazy('login:register'))
+        response = self.client.get(reverse_lazy('login:register_page'))
         self.assertTemplateUsed(response, 'login_manager/register.html')
 
     def test_signin_form(self):
         """Test that the html for the signin form appears on the signin page."""
-        response = self.client.get(reverse_lazy('login:signin'))
+        response = self.client.get(reverse_lazy('login:signin_page'))
         self.assertTrue('<form' in str(response.content))
         self.assertTrue('password' in str(response.content))
         self.assertFalse('confirm_password' in str(response.content))
 
     def test_signin_context(self):
         """Test that the signin route produces the expected context."""
-        response = self.client.get(reverse_lazy('login:signin'))
+        response = self.client.get(reverse_lazy('login:signin_page'))
         try:
-            self.assertTrue(response.context['form'])
+            self.assertTrue('signin_form' in response.context)
         except KeyError:
             self.assertTrue(False)

@@ -1,0 +1,25 @@
+{% extends "dashboard/base.html" %}
+{% block content %}
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Created At</th>
+            <th>User Level</th>
+            {% if user.permission == 'admin' %}
+            <th>Actions</th>
+            {% endif %}
+        </tr>
+        {% for user in object_list %}
+            <td>{{user.id}}</td>
+            <td>{{user.first_name}} {{user.last_name}}</td>
+            <td>{{user.date_joined}}</td>
+            {% if user.permission == 'admin' %}
+            <td>Admin</td>
+            <td><a href="{% url 'users:edit' %}/{{user.id}}">edit</a><a href="{% url 'users:remove_user' %}/{{user.id}}">remove</a></td>
+            {% else %}
+            <td>User</td>
+            {% endif %}
+        {% endfor %}
+    </table>
+{% endblock  %}

@@ -1,3 +1,9 @@
 {% extends "dashboard/base.html" %}
 {% block content %}
+    <form action="{% url 'login:login' %}" method="post">
+        {% csrf_token %}
+        {{ signin_form }}
+        <input type="submit" value="Login">
+    </form>
+    <a href="{% url 'login:register_page' %}">Don't have an account? Register</a>
 {% endblock  %}
