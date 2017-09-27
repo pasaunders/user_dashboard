@@ -21,5 +21,13 @@ class add_form(ModelForm):
             raise forms.ValidationError('password and confirmaiton must match')
 
 
-class edit_form(forms.Form):
-    pass
+class message_form(forms.Form):
+    class Meta:
+        model = Messages
+        fields = ['message']
+
+
+class message_form(forms.Form):
+    class Meta:
+        model = Comments
+        fields = ['comment']

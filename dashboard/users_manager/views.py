@@ -1,7 +1,7 @@
 from django.views.generic import(
     ListView, TemplateView, FormView, CreateView, UpdateView, DeleteView
 )
-from .forms import add_form, edit_form
+from .forms import add_form, message_form, comment_form
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse_lazy
@@ -54,5 +54,12 @@ class RemoveUser(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('dashboard:user_home')
 
 
-class PostMessage(ListView):
+class PostMessage(TemplateView):
     template_name = 'users_manager/show.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PostMessage, self).get_context_data(**kwargs)
+        context['messages'] = User.objects.get(id=self.request.user.id).messages.all()
+        context['message_form'] = message_form
+        context['comment_form'] = comment_form
+        return context
