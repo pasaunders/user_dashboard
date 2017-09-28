@@ -1,4 +1,4 @@
-"""Routes for managing user login and registration."""
+"""Routes for managing user creation and editing and registration."""
 
 from django.conf.urls import url
 from .views import user_list

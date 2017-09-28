@@ -1,6 +1,8 @@
 import re
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group, Permission
+from django.dispatch import receiver
+from django.db.models.signals import post_save, post_migrate
 
 class User_valid(models.Manager):
     def user_validator(self, postData):
@@ -17,7 +19,11 @@ class User_valid(models.Manager):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name='profile'
+        )
     objects = User_valid()
 
     class Meta:
@@ -25,3 +31,8 @@ class Profile(models.Model):
             ('admin', 'Access to admin pages'),
             ('user', 'all normal users')
         )
+
+@receiver(post_save, sender=User)
+def make_profile_for_user(sender, instance, **kwargs):
+    if kwargs["created"]:
+        Profile.objects.create(user=instance)

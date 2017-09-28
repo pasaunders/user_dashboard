@@ -1,8 +1,0 @@
-{% extends "dashboard/base.html" %}
-{% block content %}
-    <form action="{% url 'login:register' %}" method="post">
-        {% csrf_token %}
-        {{ register_form }}
-        <input type="submit" value="Register">
-    </form>
-{% endblock  %}

@@ -1,15 +1,11 @@
 """Routes for managing user login and registration."""
 
 from django.conf.urls import url
-from .views import (
-    index, signin_page, register_page, register, login_user
-    )
+from .views import index, signin, logout_view
 
 
 urlpatterns = [
-    url(r'^$', index, name='home'),
-    url(r'^signin$', signin_page, name='signin_page'),
-    url(r'^register$', register_page, name='register_page'),
-    url(r'^add_user$', register, name='register'),
-    url(r'^login$', login_user, name='login'),
+    url(r'^$', index.as_view(), name='home'),
+    url(r'^signin$', signin.as_view(), name='signin'),
+    url(r'^logout$', logout_view.as_view(), name='logout')
 ]

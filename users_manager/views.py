@@ -41,21 +41,24 @@ class EditUser(LoginRequiredMixin, UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class NewUser(PermissionRequiredMixin, CreateView):
-    permission_required = 'admin'
+class NewUser(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'login_manager.admin'
+    login_url = reverse_lazy('login:signin')
     form_class = add_form
     template_name = 'users_manager/add.html'
     success_url = '/'
 
 
-class RemoveUser(PermissionRequiredMixin, DeleteView):
-    permission_required = 'admin'
+class RemoveUser(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'login_manager.admin'
+    login_url = reverse_lazy('login:signin')
     model = User
     success_url = reverse_lazy('dashboard:user_home')
 
 
 class PostMessage(LoginRequiredMixin, ListView):
     login_required = True
+    redirect_field_name = reverse_lazy('login:home')
     template_name = 'users_manager/show.html'
     model = User
 
